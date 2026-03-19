@@ -1,0 +1,155 @@
+// Original code by Gonçalo Leão
+// Updated by DA 2024/2025 Team
+
+#include "../data_structures/Graph.h"
+
+// Function to test the given vertex 'w' and visit it if conditions are met
+template <class T>
+void testAndVisit(std::queue< Vertex<T>*> &q, Edge<T> *e, Vertex<T> *w, double residual) {
+    // Check if the vertex 'w' is not visited and there is residual capacity
+    if (! w->isVisited() && residual > 0) {
+        // Mark 'w' as visited, set the path through which it was reached, and enqueue it
+        w->setVisited(true);
+        w->setPath(e);
+        q.push(w);
+    }
+}
+
+// Function to find an augmenting path using Breadth-First Search
+template <class T>
+bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
+    // Mark all vertices as not visited
+    for(auto v : g->getVertexSet()) {
+        v->setVisited(false);
+    }
+
+    std::queue<Vertex<T>*> q;
+    s->setVisited(true);
+    q.push(s);
+
+    while ( !q.empty() ) {
+        Vertex<T>* v = q.front();
+        q.pop();
+
+        // iterate through all forward edges
+        for (Edge<T>* e : v->getAdj()) {
+            double residualCapacity = e->getWeight() - e->getFlow();
+
+            testAndVisit(q, e, e->getDest(), residualCapacity);
+
+            // early exit
+            if (t->isVisited()) return true;
+        }
+
+        // iterate through all backward edges
+        for (Edge<T>* e : v->getIncoming()) {
+            testAndVisit(q, e, e->getOrig(), e->getFlow());
+
+            // early exit
+            if (t->isVisited()) return true;
+        }
+    }
+
+    // Return true if a path to the target is found, false otherwise
+    return t->isVisited();
+}
+
+// Function to find the minimum residual capacity along the augmenting path
+template <class T>
+double findMinResidualAlongPath(Vertex<T> *s, Vertex<T> *t) {
+    double f = INF;
+
+    Vertex<T>* curr = t;
+    while (curr != s) {
+        // edge whose dest is curr
+        Edge<T>* e = curr->getPath();
+
+        double residualCapacity;
+        if (e->getDest() == curr) { // forwards edge
+            residualCapacity = e->getWeight() - e->getFlow();
+            curr = e->getOrig();
+        } else { // backwards edge
+            residualCapacity = e->getFlow();
+            curr = e->getDest();
+        }
+
+        if (residualCapacity < f) f = residualCapacity;
+    }
+
+    // Return the minimum residual capacity
+    return f;
+}
+
+// Function to augment flow along the augmenting path with the given flow value
+template <class T>
+void augmentFlowAlongPath(Vertex<T> *s, Vertex<T> *t, double f) {
+    // Traverse the augmenting path and update the flow values accordingly
+    Vertex<T>* curr = t;
+
+    while(curr != s) {
+        Edge<T>* e = curr->getPath(); // edge whose dest is curr
+
+        if (e->getDest() == curr) {
+            e->setFlow(e->getFlow() + f);
+            curr = e->getOrig();
+        } else {
+            e->setFlow(e->getFlow() - f);
+            curr = e->getDest();
+        }
+    }
+}
+
+// Main function implementing the Edmonds-Karp algorithm
+template <class T>
+void edmondsKarp(Graph<T> *g, int source, int target) {
+    // Find source and target vertices in the graph
+    Vertex<T>* s = g->findVertex(source);
+    Vertex<T>* t = g->findVertex(target);
+
+    // initialize flow of all existing edges to 0
+    for (Vertex<T>* v : g->getVertexSet())
+        for (Edge<T>* e : v->getAdj())
+            e->setFlow(0);
+
+    // while loop that finds augmenting path, calculates the minimum residual, and augments the flow until no more paths can be found
+    while (findAugmentingPath(g, s, t)) {
+        double f = findMinResidualAlongPath(s, t);
+        augmentFlowAlongPath(s, t, f);
+    }
+}
+
+/*
+/// TESTS ///
+#include <gtest/gtest.h>
+
+TEST(Algorithm_1, test_edmondsKarp) {
+    Graph<int> myGraph;
+
+    for(int i = 1; i <= 6; i++)
+        myGraph.addVertex(i);
+
+    myGraph.addEdge(1, 2, 3);
+    myGraph.addEdge(1, 3, 2);
+    myGraph.addEdge(2, 5, 4);
+    myGraph.addEdge(2, 4, 3);
+    myGraph.addEdge(2, 3, 1);
+    myGraph.addEdge(3, 5, 2);
+    myGraph.addEdge(4, 6, 2);
+    myGraph.addEdge(5, 6, 3);
+
+    edmondsKarp(&myGraph, 1, 6);
+
+    std::stringstream ss;
+    for(auto v : myGraph.getVertexSet()) {
+        ss << v->getInfo() << "-> (";
+        for (const auto e : v->getAdj())
+            ss << (e->getDest())->getInfo() << "[Flow: " << e->getFlow() << "] ";
+        ss << ") || ";
+    }
+
+    std::cout << ss.str() << std::endl << std::endl;
+
+    EXPECT_EQ("1-> (2[Flow: 3] 3[Flow: 2] ) || 2-> (5[Flow: 1] 4[Flow: 2] 3[Flow: 0] ) || 3-> (5[Flow: 2] ) || 4-> (6[Flow: 2] ) || 5-> (6[Flow: 3] ) || 6-> () || ", ss.str());
+
+}
+*/
