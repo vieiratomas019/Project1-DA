@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "data_structures/Graph.h"
-#include "algorithms/edmonds_karp.cpp"
-#include "algorithms/ford_fulkerson.cpp"
+#include "algorithms/edmonds_karp.h"
+#include "algorithms/ford_fulkerson.h"
 
 int main() {
 
