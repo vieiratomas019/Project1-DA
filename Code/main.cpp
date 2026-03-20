@@ -4,9 +4,14 @@
 #include "algorithms/edmonds_karp.h"
 #include "algorithms/ford_fulkerson.h"
 
-int main() {
+void usage(int argc, char* argv[]) {
+    std::cerr << "Usage CLI: myProg\nUsage Batch: myProg -b [input_file] [output_filename]" << std::endl;
+}
 
-    std::cout << "Hello World!" << std::endl;
+int main(int argc, char* argv[]) {
+    if (argc != 1 && argc != 4) {
+        usage(argc, argv);
+    }
 
     return 0;
 }
