@@ -3,7 +3,6 @@
 
 #include "../data_structures/Graph.h"
 #include <limits>
-#include <linux/limits.h>
 
 using namespace std;
 
