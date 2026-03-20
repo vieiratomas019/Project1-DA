@@ -1,5 +1,4 @@
-// Original code by Gonçalo Leão
-// Updated by DA 2024/2025 Team
+
 
 #ifndef EDMONDS_KARP_H
 #define EDMONDS_KARP_H
@@ -102,7 +101,13 @@ void augmentFlowAlongPath(Vertex<T> *s, Vertex<T> *t, double f) {
     }
 }
 
-// Main function implementing the Edmonds-Karp algorithm
+/**
+ * @brief Runs Edmonds-Karp algorithm on a graph
+ * @param g Pointer to the graph
+ * @param source integer identifier of the source node
+ * @param target integer identifier of the sink node
+ * @note Time Complexity: O(V E^2), V: number of vertices, E: number of edges
+ */
 template <class T>
 void edmondsKarp(Graph<T> *g, int source, int target) {
     // Find source and target vertices in the graph
