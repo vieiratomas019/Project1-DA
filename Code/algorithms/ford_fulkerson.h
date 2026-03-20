@@ -50,6 +50,14 @@ bool dfsFindAugmentingPath(Vertex<T>* v, Vertex<T>* t, double& flow) {
     return false;
 }
 
+/**
+ * @brief Runs Ford-Fulkerson algorithm on a graph
+ * @param g Pointer to the graph
+ * @param source integer identifier of the source node
+ * @param target integer identifier of the sink node
+ * @note Time Complexity: O(E |f*|), E: number of edges, |f*|: maximum value for the flow
+ */
+
 // Ford-Fulkerson algorithm
 template <class T>
 void fordFulkerson(Graph<T>* g, int source, int target) {

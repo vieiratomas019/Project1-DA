@@ -1,0 +1,3 @@
+/Users/henriquereis/Downloads/Project1-DA/cmake-build-debug/CMakeFiles/project1.dir
+/Users/henriquereis/Downloads/Project1-DA/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/henriquereis/Downloads/Project1-DA/cmake-build-debug/CMakeFiles/rebuild_cache.dir
