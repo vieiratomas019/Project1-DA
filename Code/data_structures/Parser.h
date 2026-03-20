@@ -2,8 +2,9 @@
 #define PARSER_H
 
 #include <iostream>
-#include <set>
 #include <string>
+#include <vector>
+
 using namespace std;
 
 struct Submission{
@@ -39,15 +40,33 @@ struct Control{
 };
 
 class Parser{
-  public:
-    Parser();
-    void parse(string filename);
+public:
+  Parser();
+  void parse(const string& filename);
 
-  private:
-    set<Submission> submissions;
-    set<Reviewer> reviewers;
-    Parameters paramos;
-    Control ctrl;
-    void parseline(int mode, string line);
+  // getters
+  const vector<Submission>& getSubmissions() const { return submissions; }
+  const vector<Reviewer>& getReviewers() const { return reviewers; }
+  const Parameters& getParameters() const { return paramos; }
+  const Control& getControl() const { return ctrl; }
+
+
+private:
+  enum Part {
+    NOT_INITIALIZED,
+    SUBMISSIONS,
+    REVIEWERS,
+    PARAMETERS,
+    CONTROL
+  };
+
+  /* Fields */
+  vector<Submission> submissions;
+  vector<Reviewer> reviewers;
+  Parameters paramos;
+  Control ctrl;
+
+  /* Methods */
+  void parseline(Part part, const string& line);
 };
 #endif //PARSER_H
