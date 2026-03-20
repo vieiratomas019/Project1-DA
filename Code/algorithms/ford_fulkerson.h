@@ -2,7 +2,8 @@
 #define FORD_FULKERSON_H
 
 #include "../data_structures/Graph.h"
-#include <limits>
+#include <climits>
+#include <cfloat>
 
 using namespace std;
 
@@ -73,7 +74,7 @@ void fordFulkerson(Graph<T>* g, int source, int target) {
         }
     }
 
-    double flow = ARG_MAX;
+    double flow = INF;
 
     // set all as unvisited
     // remove old path
@@ -103,7 +104,7 @@ void fordFulkerson(Graph<T>* g, int source, int target) {
             }
         }
 
-        flow = ARG_MAX;
+        flow = INF;
 
         for (Vertex<T>* v : g->getVertexSet())
         {
