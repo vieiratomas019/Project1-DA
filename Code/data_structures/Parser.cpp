@@ -50,8 +50,7 @@ void Parser::parseline(Part part, const string& line){
       getline(ss, bin, comma);
 
       // Authors
-      getline(ss, token, comma);
-      s.authors.push_back(token);
+      getline(ss, s.authors, comma);
 
       // Email
       getline(ss, s.email, comma);

@@ -10,7 +10,7 @@ using namespace std;
 struct Submission{
   int id;
   string title;
-  vector<string> authors;
+  string authors;
   string email;
   int primary;
   int secondary;

@@ -44,12 +44,7 @@ int main(int argc, char* argv[]) {
             std::cout << " | Title: " << s.title;
 
             // Loop through the authors vector safely
-            std::cout << " | Authors: [";
-            for (size_t i = 0; i < s.authors.size(); ++i) {
-                std::cout << s.authors[i];
-                if (i < s.authors.size() - 1) std::cout << ", ";
-            }
-            std::cout << "]";
+            std::cout << " | Authors: " << s.authors;
 
             std::cout << " | Email: " << s.email;
             std::cout << " | Primary: " << s.primary;
