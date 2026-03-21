@@ -10,34 +10,8 @@ void usage() {
     std::cerr << "Usage CLI: myProg\nUsage Batch: myProg -b [input_file] [output_filename]" << std::endl;
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 1 && argc != 4) {
-        usage();
-        return 1;
-    }
-
-    if (argc == 1) {
-        // WITH THE INPUT FILE: KEEP IN MIND THAT THE PATH MUST INCLUDE THE Input/ FOLDER
-
-        // while loop perguntar o input file
-            // se quer sair do programa : sair
-            // se input file valido
-                // Parser parser;
-                // parser.parse()
-                // break;
-        // === THEN ===
-        // mostrar menu full para que o user edite alguma coisa do input file
-            // ==== USER CAN: ====
-            // request information: provided the current config from the parsed input file (list reviewers, submissions, parameters, etc)
-            // change some information ??????????
-        // create the graph with the stored info
-        // run the algorithm
-        // still some missing steps
-
-        Parser parser;
-        parser.parse("Input/dataset1.csv");
-
-        std::cout << "\n--- SUBMISSIONS ---\n";
+void printInfo(const Parser& parser) {
+    std::cout << "\n--- SUBMISSIONS ---\n";
         vector<Submission> submissions = parser.getSubmissions();
         for (const auto& s : submissions) {
             std::cout << "ID: " << s.id;
@@ -76,6 +50,36 @@ int main(int argc, char* argv[]) {
         std::cout << "GenerateAssignments: " << ctrl.GenerateAssignments << std::endl;
         std::cout << "RiskAnalysis: " << ctrl.RiskAnalysis << std::endl;
         std::cout << "OutputFileName: " << ctrl.OutputFileName << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 1 && argc != 4) {
+        usage();
+        return 1;
+    }
+
+    if (argc == 1) {
+        // WITH THE INPUT FILE: KEEP IN MIND THAT THE PATH MUST INCLUDE THE Input/ FOLDER
+
+        // while loop perguntar o input file
+            // se quer sair do programa : sair
+            // se input file valido
+                // Parser parser;
+                // parser.parse()
+                // break;
+        // === THEN ===
+        // mostrar menu full para que o user edite alguma coisa do input file
+            // ==== USER CAN: ====
+            // request information: provided the current config from the parsed input file (list reviewers, submissions, parameters, etc)
+            // change some information ??????????
+        // create the graph with the stored info
+        // run the algorithm
+        // still some missing steps
+
+        Parser parser;
+        parser.parse("Input/dataset1.csv");
+
+        printInfo(parser);
     }
 
     return 0;
