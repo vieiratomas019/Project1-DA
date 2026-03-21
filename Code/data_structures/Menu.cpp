@@ -65,8 +65,49 @@ void showAll(const Parser& parser){
 }
 
 void showMenu(){
-  cout << "Choose an Option:" << endl;
+  cout << "Choose an Option (type the correspondent number):" << endl;
   cout << "1. See Info" << endl;
   cout << "2. Create the Graph" << endl;
   cout << "3. Run the Algorithm" << endl;
+  cout << "4. Exit" << endl;
+}
+
+void showInfoOptions(){
+    cout << "What Info do you wish to view?" << endl;
+    cout << "If you want to view more than one field you should type the options without spaces (eg. 134)" << endl;
+    cout << "1. Submissions" << endl;
+    cout << "2. Reviewers" << endl;
+    cout << "3. Parameters" << endl;
+    cout << "4. Control" << endl;
+}
+
+void showWantedInfo(const Parser& parser, string opt_list){
+    vector<int> options;
+    for (char c: opt_list)
+    {
+        if (c >= '1' && c <= '4')
+        {
+            int n = c - '0';
+            options.push_back(n);
+        }
+    }
+
+    for (int option : options)
+    {
+        switch (option)
+        {
+        case 1:
+            showSubmissions(parser);
+            break;
+        case 2:
+            showReviewers(parser);
+            break;
+        case 3:
+            showParameters(parser);
+            break;
+        case 4:
+            showControl(parser);
+            break;
+        }
+    }
 }

@@ -18,6 +18,8 @@ void showReviewers(const Parser& parser);
 void showParameters(const Parser& parser);
 void showControl(const Parser& parser);
 void showAll(const Parser& parser);
+void showInfoOptions();
+void showWantedInfo(const Parser& parser, string opt_list);
 //still some missing steps
 
 #endif //PROJECT1_MENU_H
