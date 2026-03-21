@@ -62,7 +62,14 @@ void Parser::parseline(Part part, const string& line){
 
       // Secondary Domain
       if (getline(ss, token)) {
-        s.secondary = (!token.empty()) ? stoi(token) : 0;
+        try {
+          s.secondary = stoi(token);
+        } catch (const invalid_argument& e) {
+          s.secondary = 0;
+        }
+      }
+      else {
+        s.secondary = 0;
       }
 
       submissions.push_back(s);
@@ -89,7 +96,14 @@ void Parser::parseline(Part part, const string& line){
 
       // Secondary Expertise
       if (getline(ss, token)) {
-        r.secondary = (!token.empty()) ? stoi(token) : 0;
+        try {
+          r.secondary = stoi(token);
+        } catch (const invalid_argument& e) {
+          r.secondary = 0;
+        }
+      }
+      else {
+        r.secondary = 0;
       }
 
       reviewers.push_back(r);

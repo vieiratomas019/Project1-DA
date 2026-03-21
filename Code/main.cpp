@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         // still some missing steps
 
         Parser parser;
-        parser.parse("Input/dataset7.csv");
+        parser.parse("Input/dataset1.csv");
 
         std::cout << "\n--- SUBMISSIONS ---\n";
         vector<Submission> submissions = parser.getSubmissions();
