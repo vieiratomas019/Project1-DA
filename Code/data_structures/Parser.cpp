@@ -8,10 +8,15 @@
 
 using namespace std;
 
-Parser::Parser():submissions(), reviewers(), paramos(), ctrl(){}
+Parser::Parser(): paramos(), ctrl(){}
 
 void Parser::parse(const string& filename){
   ifstream read(filename);
+
+  if (!read.is_open()) {
+    std::cerr << "File could not be opened" << std::endl;
+    return;
+  }
 
   Part part = NOT_INITIALIZED;
   for(string line; getline(read, line); ){
