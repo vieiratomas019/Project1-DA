@@ -5,4 +5,17 @@
 #ifndef PROJECT1_MENU_H
 #define PROJECT1_MENU_H
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include "Parser.h"
+
+using namespace std;
+
+void showSubmissions(const Parser& parser);
+void showReviewers(const Parser& parser);
+void showParameters(const Parser& parser);
+void showControl(const Parser& parser);
+void showAll(const Parser& parser);
+
 #endif //PROJECT1_MENU_H
