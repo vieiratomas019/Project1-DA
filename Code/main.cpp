@@ -39,25 +39,29 @@ int main(int argc, char* argv[]) {
         while (true)
         {
             string filename;
-            cout << "Type your Input File Name: ";
+            string quit = "quit";
+
+            cout << "Type your Input File Name (type " + quit + " to exit): ";
             cin >> filename;
+
+            // early exit
+            if (filename == quit) return 0;
 
             try
             {
-
                 parser.parse("Input/" + filename);
                 break;
 
             } catch (const exception& e)
             {
-                cerr << "Error: " << e.what() << endl;
+                cout << "=========== Error ===========" << endl << e.what() << endl << "=============================" << endl;
             }
         }
 
         //show options
         showMenu();
-        //show action based on the option
 
+        //show action based on the option
     }
 
     return 0;
