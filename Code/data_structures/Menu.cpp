@@ -7,6 +7,7 @@
 #include <string>
 #include "Menu.h"
 #include "Parser.h"
+using namespace std;
 
 void showSubmissions(const Parser& parser){
     std::cout << "\n--- SUBMISSIONS ---\n";
@@ -55,9 +56,17 @@ void showControl(const Parser& parser){
     std::cout << "RiskAnalysis: " << ctrl.RiskAnalysis << std::endl;
     std::cout << "OutputFileName: " << ctrl.OutputFileName << std::endl;
 }
+
 void showAll(const Parser& parser){
   showSubmissions(parser);
   showReviewers(parser);
   showParameters(parser);
   showControl(parser);
+}
+
+void showMenu(){
+  cout << "Choose an Option:" << endl;
+  cout << "1. See Info" << endl;
+  cout << "2. Create the Graph" << endl;
+  cout << "3. Run the Algorithm" << endl;
 }

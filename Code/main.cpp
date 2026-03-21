@@ -5,6 +5,7 @@
 #include "algorithms/edmonds_karp.h"
 #include "algorithms/ford_fulkerson.h"
 #include "data_structures/Parser.h"
+using namespace std;
 
 void usage() {
     std::cerr << "Usage CLI: myProg\nUsage Batch: myProg -b [input_file] [output_filename]" << std::endl;
@@ -32,9 +33,30 @@ int main(int argc, char* argv[]) {
         // run the algorithm
         // still some missing steps
 
+        // choose input file
         Parser parser;
-        parser.parse("Input/dataset1.csv");
 
+        while (true)
+        {
+            string filename;
+            cout << "Type your Input File Name: ";
+            cin >> filename;
+
+            try
+            {
+
+                parser.parse("Input/" + filename);
+                break;
+
+            } catch (const exception& e)
+            {
+                cerr << "Error: " << e.what() << endl;
+            }
+        }
+
+        //show options
+        showMenu();
+        //show action based on the option
 
     }
 

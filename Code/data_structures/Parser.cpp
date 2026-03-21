@@ -3,6 +3,7 @@
 #include <set>
 #include <fstream>
 #include <sstream>
+#include <exception>
 
 #include "Parser.h"
 
@@ -14,8 +15,7 @@ void Parser::parse(const string& filename){
   ifstream read(filename);
 
   if (!read.is_open()) {
-    std::cerr << "File could not be opened" << std::endl;
-    return;
+    throw runtime_error("Could not open file" + filename);
   }
 
   Part part = NOT_INITIALIZED;
