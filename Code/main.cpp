@@ -16,6 +16,8 @@ int main(int argc, char* argv[]) {
     }
 
     if (argc == 1) {
+        // WITH THE INPUT FILE: KEEP IN MIND THAT THE PATH MUST INCLUDE THE Input/ FOLDER
+
         // while loop perguntar o input file
             // se quer sair do programa : sair
             // se input file valido
