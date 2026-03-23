@@ -5,6 +5,7 @@
 #include "algorithms/edmonds_karp.h"
 #include "algorithms/ford_fulkerson.h"
 #include "data_structures/Parser.h"
+#include "data_structures/ReviewAssigner.h"
 
 void usage() {
     std::cerr << "Usage CLI: myProg\nUsage Batch: myProg -b [input_file] [output_filename]" << std::endl;
@@ -77,9 +78,20 @@ int main(int argc, char* argv[]) {
         // still some missing steps
 
         Parser parser;
-        parser.parse("Input/dataset1.csv");
+        parser.parse("Input/dataset2.csv");
 
-        printInfo(parser);
+        ReviewAssigner r_a(parser);
+        r_a.generate();
+
+        r_a.printResults();
+        // r_a.outputResults()
+
+        // ==============================================================
+        // SEE WHAT TO DO FOR CASES THAT HAVE EXTRA CAPACITY OF REVIEWERS
+        // ==============================================================
+
+        // RESULTS MUST BE SORTED
+
     }
 
     return 0;
