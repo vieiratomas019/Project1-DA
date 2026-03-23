@@ -22,7 +22,10 @@ struct Results {
     bool success = false;
 
     // relations between primary of reviewers and submissions
-    std::vector<std::pair<int, int>> primary_rel;
+    unsigned long primary_size;
+
+    std::vector< std::tuple<int, int, int> > primary_rel_rev; // sorted by reviewers' IDs
+    std::vector< std::tuple<int, int, int> > primary_rel_sub; // sorted by submissions' IDs
 
     // ADD OTHER RELATIONS
 

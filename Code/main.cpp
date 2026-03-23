@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
         r_a.generate();
 
         r_a.printResults();
-        // r_a.outputResults()
+        r_a.outputResults();
 
         // ==============================================================
         // SEE WHAT TO DO FOR CASES THAT HAVE EXTRA CAPACITY OF REVIEWERS

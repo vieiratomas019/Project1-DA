@@ -32,17 +32,29 @@ void ReviewAssigner::storeResults() {
     const std::vector<Submission>& submissions = parser.getSubmissions();
     const std::vector<Reviewer>& reviewers = parser.getReviewers();
 
-    // store Primary domains to Primary expertise domains
+    // ================================
+    // STORE AND SORT PRIMARY DOMAINS
+    // ================================
     for (int i = 0; i < graph_info.N_REV; i++) {
         Vertex<int>* v = graph_info.graph.findVertex(i + 1);
         for (Edge<int>* e : v->getAdj()) {
             if (e->getFlow() == 1) {
                 int original_id = e->getDest()->getInfo() - graph_info.N_REV - 1;
 
-                results.primary_rel.emplace_back(reviewers.at(i).id, submissions.at(original_id).id );
+                int reviewer_id = reviewers.at(i).id;
+                int submission_id = submissions.at(original_id).id;
+                int domain = reviewers.at(i).primary;
+
+                results.primary_rel_rev.emplace_back( reviewer_id, submission_id, domain );
+                results.primary_rel_sub.emplace_back( submission_id, reviewer_id, domain );
             }
         }
     }
+
+    std::sort(results.primary_rel_rev.begin(), results.primary_rel_rev.end());
+    std::sort(results.primary_rel_sub.begin(), results.primary_rel_sub.end());
+
+    results.primary_size = results.primary_rel_rev.size();
 
     // ==========================================================================================================
     // EVENTUALLY WE WILL HAVE TO STORE SECONDARY RELATIONS, WHAT IS THE BEST WAY? MAYBE REFACTOR THE ABOVE LOOPS
@@ -61,17 +73,17 @@ void ReviewAssigner::printResults() const {
 
     std::cout << "#SubmissionID, ReviewerID, Match\n";
 
-    for (auto relation : results.primary_rel) {
-        std::cout << relation.second << ", " << relation.first << std::endl;
+    for (auto relation : results.primary_rel_sub) {
+        std::cout << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
     }
 
     std::cout << "#ReviewerID, SubmissionID, Match\n";
 
-    for (auto relation : results.primary_rel) {
-        std::cout << relation.first << ", " << relation.second << std::endl;
+    for (auto relation : results.primary_rel_rev) {
+        std::cout << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
     }
 
-    std::cout << "#Total: " << results.primary_rel.size() << "\n";
+    std::cout << "#Total: " << results.primary_size << "\n";
 
     // ==========================================================================================================
     // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE
@@ -84,7 +96,23 @@ void ReviewAssigner::outputResults() const {
         return;
     }
 
-    std::cout << "ReviewAssigner::outputResults is still not implemented\n";
+    std::ofstream output_file("Output/" + parser.getControl().OutputFileName);
+
+    output_file << "#SubmissionID,ReviewerID,Match\n";
+
+    for (auto relation : results.primary_rel_sub) {
+        output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+    }
+
+    output_file << "#ReviewerID,SubmissionID,Match\n";
+
+    for (auto relation : results.primary_rel_rev) {
+        output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+    }
+
+    output_file << "#Total: " << results.primary_size << "\n";
+
+    output_file.close();
 
     // ==========================================================================================================
     // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE
