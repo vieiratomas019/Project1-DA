@@ -5,6 +5,7 @@
 #include "algorithms/edmonds_karp.h"
 #include "algorithms/ford_fulkerson.h"
 #include "data_structures/Parser.h"
+#include "data_structures/ReviewAssigner.h"
 using namespace std;
 
 void usage() {
@@ -68,6 +69,7 @@ int main(int argc, char* argv[]) {
 
         //show options
         //show action based on the option
+        ReviewAssigner review_assigner(parser);
         while (true)
         {
             showMenu();
@@ -83,16 +85,21 @@ int main(int argc, char* argv[]) {
                 break;
             case 2:
                 //function to create graph
-                cout << "Graph not implemented yet" << endl;
+                cout << "Your Graph was created." << endl;
                 break;
             case 3:
                 //function to run the algorithm
-                cout << "Algorithm not implemented yet" << endl;
+                review_assigner.generate();
+                review_assigner.printResults();
+                review_assigner.outputResults();
+                cout << "You can also consult this information in the file Output/" << parser.getControl().OutputFileName << endl;
+                //cout << "Algorithm not implemented yet" << endl;
                 break;
             case 4:
                 //quit
                 exit(EXIT_SUCCESS);
             }
+
         }
     }
 
