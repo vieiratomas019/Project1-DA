@@ -3,6 +3,9 @@
 //
 
 #include "ReviewAssigner.h"
+
+#include <map>
+
 #include "../algorithms/edmonds_karp.h"
 
 ReviewAssigner::ReviewAssigner(const Parser &parser) : parser(parser), graph_info() {
@@ -31,6 +34,7 @@ void ReviewAssigner::generate() {
 void ReviewAssigner::storeResults() {
     const std::vector<Submission>& submissions = parser.getSubmissions();
     const std::vector<Reviewer>& reviewers = parser.getReviewers();
+    std::map<int, int> count_submission_reviews; // count number of successful reviews
 
     // ================================
     // STORE AND SORT PRIMARY DOMAINS
@@ -47,14 +51,39 @@ void ReviewAssigner::storeResults() {
 
                 results.primary_rel_rev.emplace_back( reviewer_id, submission_id, domain );
                 results.primary_rel_sub.emplace_back( submission_id, reviewer_id, domain );
+
+                count_submission_reviews[submission_id]++;
             }
         }
     }
 
+    // ================================
+    // DETECT MISSING REVIEWS
+    // ================================
+    const int min = parser.getParameters().MinReviewsPerSubmission;
+
+    for (const Submission& submission : submissions) {
+
+        const int count = count_submission_reviews[submission.id];
+
+        if (count < min) {
+            // note that there are missing reviews for a certain submission
+            results.success = false;
+            results.missing_reviews.push_back({submission.id, submission.primary, min - count});
+        }
+    }
+
+
+    // sort
     std::sort(results.primary_rel_rev.begin(), results.primary_rel_rev.end());
     std::sort(results.primary_rel_sub.begin(), results.primary_rel_sub.end());
 
     results.primary_size = results.primary_rel_rev.size();
+
+    // sort missing reviews
+    std::sort(results.missing_reviews.begin(), results.missing_reviews.end(), [](const MissingReview& a, const MissingReview& b) {
+        return (a.sub_id < b.sub_id);
+    });
 
     // ==========================================================================================================
     // EVENTUALLY WE WILL HAVE TO STORE SECONDARY RELATIONS, WHAT IS THE BEST WAY? MAYBE REFACTOR THE ABOVE LOOPS
@@ -85,6 +114,13 @@ void ReviewAssigner::printResults() const {
 
     std::cout << "#Total: " << results.primary_size << "\n";
 
+    if (!results.success) {
+        std::cout << "#SubmissionID, Domain, MissingReviews\n";
+        for (const MissingReview& m_r : results.missing_reviews) {
+            std::cout << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
+        }
+    }
+
     // ==========================================================================================================
     // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE
     // ==========================================================================================================
@@ -111,6 +147,13 @@ void ReviewAssigner::outputResults() const {
     }
 
     output_file << "#Total: " << results.primary_size << "\n";
+
+    if (!results.success) {
+        output_file << "#SubmissionID, Domain, MissingReviews\n";
+        for (const MissingReview& m_r : results.missing_reviews) {
+            output_file << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
+        }
+    }
 
     output_file.close();
 

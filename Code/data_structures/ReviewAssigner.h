@@ -17,9 +17,15 @@ struct GraphInfo {
     int N_SUB;
 };
 
+struct MissingReview {
+    int sub_id;
+    int domain;
+    int count;
+};
+
 struct Results {
     bool valid = false; // check if we called ReviewAssigner::generate();
-    bool success = false;
+    bool success = true;
 
     // relations between primary of reviewers and submissions
     unsigned long primary_size;
@@ -28,6 +34,8 @@ struct Results {
     std::vector< std::tuple<int, int, int> > primary_rel_sub; // sorted by submissions' IDs
 
     // ADD OTHER RELATIONS
+
+    std::vector<MissingReview> missing_reviews;
 
     // ADD riskAnalysis info
 };
