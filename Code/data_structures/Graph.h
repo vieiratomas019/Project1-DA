@@ -84,10 +84,12 @@ public:
     Vertex<T> * getOrig() const;
     Edge<T> *getReverse() const;
     double getFlow() const;
+    int getDomain() const;
 
     void setSelected(bool selected);
     void setReverse(Edge<T> *reverse);
     void setFlow(double flow);
+    void setDomain(int domain);
 protected:
     Vertex<T> * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity
@@ -100,6 +102,9 @@ protected:
     Edge<T> *reverse = nullptr;
 
     double flow; // for flow-related problems
+
+    // added for GenerateAssignments
+    int domain = 0;
 };
 
 /********************** Graph  ****************************/
@@ -124,7 +129,7 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addEdge(const T &sourc, const T &dest, double w);
+    Edge<T>* addEdge(const T &sourc, const T &dest, double w);
     bool removeEdge(const T &source, const T &dest);
     bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
 
@@ -352,6 +357,11 @@ double Edge<T>::getFlow() const {
     return flow;
 }
 
+template<class T>
+int Edge<T>::getDomain() const {
+    return this->domain;
+}
+
 template <class T>
 void Edge<T>::setSelected(bool selected) {
     this->selected = selected;
@@ -365,6 +375,11 @@ void Edge<T>::setReverse(Edge<T> *reverse) {
 template <class T>
 void Edge<T>::setFlow(double flow) {
     this->flow = flow;
+}
+
+template<class T>
+void Edge<T>::setDomain(int domain) {
+    this->domain = domain;
 }
 
 /********************** Graph  ****************************/
@@ -440,13 +455,12 @@ bool Graph<T>::removeVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
+Edge<T>* Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
-        return false;
-    v1->addEdge(v2, w);
-    return true;
+        return nullptr;
+    return v1->addEdge(v2, w);
 }
 
 /*

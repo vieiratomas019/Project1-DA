@@ -7,6 +7,7 @@
 
 #include "Parser.h"
 #include "Graph.h"
+#include <map>
 #include <fstream>
 
 struct GraphInfo {
@@ -53,9 +54,17 @@ private:
     Results results;
 
     void createGraph();
-    void addEdges1();
-    void addEdges2();
-    void addEdges3();
+    void addEdges();
+
+    /**
+     *
+     * @param mode GenerateAssignments integer
+     * @param rev Reviewer object
+     * @param sub Submission object
+     * @return returns 0 when there is no match, returns the domain matched when there is a match
+     */
+    int matchesByMode(int mode, const Reviewer& rev, const Submission& sub);
+
 
     void storeResults();
 };

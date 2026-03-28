@@ -10,16 +10,7 @@
 
 ReviewAssigner::ReviewAssigner(const Parser &parser) : parser(parser), graph_info() {
     createGraph();
-
-    switch (parser.getControl().GenerateAssignments) {
-        case 0: case 1:
-            addEdges1(); break;
-        case 2:
-            addEdges2(); break;
-        case 3:
-            addEdges3(); break;
-        default: break;
-    }
+    addEdges();
 }
 
 void ReviewAssigner::generate() {
@@ -47,7 +38,7 @@ void ReviewAssigner::storeResults() {
 
                 int reviewer_id = reviewers.at(i).id;
                 int submission_id = submissions.at(original_id).id;
-                int domain = reviewers.at(i).primary;
+                int domain = e->getDomain();
 
                 results.primary_rel_rev.emplace_back( reviewer_id, submission_id, domain );
                 results.primary_rel_sub.emplace_back( submission_id, reviewer_id, domain );
@@ -191,10 +182,11 @@ void ReviewAssigner::createGraph() {
     graph_info.graph.addVertex(sink);
 }
 
-void ReviewAssigner::addEdges1() {
+void ReviewAssigner::addEdges() {
     const std::vector<Submission>& submissions = parser.getSubmissions();
     const std::vector<Reviewer>& reviewers = parser.getReviewers();
     const Parameters& parameters = parser.getParameters();
+    const int mode = parser.getControl().GenerateAssignments;
 
     // connect source to reviewers
     for (int i = 0; i < graph_info.N_REV; i++) graph_info.graph.addEdge(graph_info.source, 1 + i, parameters.MaxReviewsPerReviewer);
@@ -202,7 +194,11 @@ void ReviewAssigner::addEdges1() {
     // connect reviewers to submissions
     for (int i = 0; i < graph_info.N_REV; i++) {
         for (int j = 0; j < graph_info.N_SUB; j++) {
-            if (reviewers[i].primary == submissions[j].primary) graph_info.graph.addEdge(1 + i, 1 + graph_info.N_REV + j, 1);
+            // if there is a match, add edge
+            if (int matched_domain = matchesByMode(mode, reviewers[i], submissions[j])) {
+                auto e = graph_info.graph.addEdge(1 + i, 1 + graph_info.N_REV + j, 1);
+                e->setDomain(matched_domain);
+            }
         }
     }
 
@@ -210,10 +206,31 @@ void ReviewAssigner::addEdges1() {
     for (int i = 0; i < graph_info.N_SUB; i++) graph_info.graph.addEdge(1 + graph_info.N_REV + i, graph_info.sink, parameters.MinReviewsPerSubmission);
 }
 
-void ReviewAssigner::addEdges2() {
-    /* still to be implemented */
-}
+int ReviewAssigner::matchesByMode(int mode, const Reviewer& rev, const Submission& sub) {
+    if (mode == 0 || mode == 1) {
+        if (rev.primary == sub.primary) return sub.primary;
+    }
 
-void ReviewAssigner::addEdges3() {
-    /* still to be implemented */
+    if (mode == 2) {
+        if (rev.primary == sub.primary) return sub.primary;
+        if (rev.primary == sub.secondary) return sub.secondary;
+    }
+
+    if (mode == 3) {
+        // ========================
+        // FOR NOW NOT IMPLEMENTED
+        // ========================
+
+        /*
+        if (rev.primary == sub.primary) return sub.primary;
+        if (rev.primary == sub.secondary) return sub.secondary;
+        if (rev.secondary == sub.primary) return sub.primary;
+        if (rev.secondary == sub.secondary) return sub.secondary;
+         */
+
+        return 0;
+    }
+
+    // return 0 if there is no match
+    return 0;
 }

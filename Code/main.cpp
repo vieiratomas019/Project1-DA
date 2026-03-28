@@ -5,6 +5,7 @@
 #include "algorithms/edmonds_karp.h"
 #include "algorithms/ford_fulkerson.h"
 #include "data_structures/Parser.h"
+#include "data_structures/ReviewAssigner.h"
 using namespace std;
 
 void usage() {
@@ -18,6 +19,48 @@ enum Options
     ALGORITHM,
     EXIT
 };
+
+void printInfo(const Parser& parser) {
+    std::cout << "\n--- SUBMISSIONS ---\n";
+        vector<Submission> submissions = parser.getSubmissions();
+        for (const auto& s : submissions) {
+            std::cout << "ID: " << s.id;
+            std::cout << " | Title: " << s.title;
+
+            // Loop through the authors vector safely
+            std::cout << " | Authors: " << s.authors;
+
+            std::cout << " | Email: " << s.email;
+            std::cout << " | Primary: " << s.primary;
+            std::cout << " | Secondary: " << s.secondary << std::endl;
+        }
+
+        std::cout << "\n--- REVIEWERS ---\n";
+        vector<Reviewer> reviewers = parser.getReviewers();
+        for (const auto& r : reviewers) {
+            std::cout << "ID: " << r.id;
+            std::cout << " | Name: " << r.name;
+            std::cout << " | Email: " << r.email;
+            std::cout << " | Primary: " << r.primary;
+            std::cout << " | Secondary: " << r.secondary << std::endl;
+        }
+        std::cout << "\n";
+
+        Parameters params = parser.getParameters();
+        std::cout << "\n--- PARAMETERS ---\n";
+        std::cout << "MinReviewsPerSubmission: " << params.MinReviewsPerSubmission << std::endl;
+        std::cout << "MaxReviewsPerReviewer: " << params.MaxReviewsPerReviewer << std::endl;
+        std::cout << "PrimaryReviewerExpertise: " << params.PrimaryReviewerExpertise << std::endl;
+        std::cout << "SecondaryReviewerExpertise: " << params.SecondaryReviewerExpertise << std::endl;
+        std::cout << "PrimarySubmissionDomain: " << params.PrimarySubmissionDomain << std::endl;
+        std::cout << "SecondarySubmissionDomain: " << params.SecondarySubmissionDomain << std::endl;
+
+        Control ctrl = parser.getControl();
+        std::cout << "\n--- CONTROL ---\n";
+        std::cout << "GenerateAssignments: " << ctrl.GenerateAssignments << std::endl;
+        std::cout << "RiskAnalysis: " << ctrl.RiskAnalysis << std::endl;
+        std::cout << "OutputFileName: " << ctrl.OutputFileName << std::endl;
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 1 && argc != 4) {
@@ -43,57 +86,15 @@ int main(int argc, char* argv[]) {
 
         // choose input file
         Parser parser;
+        parser.parse("Input/dataset10.csv");
 
-        while (true)
-        {
-            string filename;
-            string quit = "quit";
+        printInfo(parser);
 
-            cout << "Type your Input File Name (type " + quit + " to exit): ";
-            cin >> filename;
+        ReviewAssigner r_a(parser);
+        r_a.generate();
 
-            // early exit
-            if (filename == quit) exit(EXIT_SUCCESS);
-
-            try
-            {
-                parser.parse("Input/" + filename);
-                break;
-
-            } catch (const exception& e)
-            {
-                cout << "=========== Error ===========" << endl << e.what() << endl << "=============================" << endl;
-            }
-        }
-
-        //show options
-        //show action based on the option
-        while (true)
-        {
-            showMenu();
-            int option_num;
-            string opt_list;
-            cin >> option_num;
-            switch (option_num)
-            {
-            case 1:
-                showInfoOptions();
-                cin >> opt_list;
-                showWantedInfo(parser, opt_list);
-                break;
-            case 2:
-                //function to create graph
-                cout << "Graph not implemented yet" << endl;
-                break;
-            case 3:
-                //function to run the algorithm
-                cout << "Algorithm not implemented yet" << endl;
-                break;
-            case 4:
-                //quit
-                exit(EXIT_SUCCESS);
-            }
-        }
+        r_a.printResults();
+        r_a.outputResults();
     }
 
     return 0;
