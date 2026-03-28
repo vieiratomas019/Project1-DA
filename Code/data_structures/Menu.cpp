@@ -136,5 +136,28 @@ void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& revie
         cout << "GenerateAssignments: 3 not implemented yet." << endl;
         break;
     }
+}
+
+void handleGenerateAssignmentsBatch(const Parser& parser, const ReviewAssigner& review_assigner, const string& output_filename)
+{
+    switch (parser.getControl().GenerateAssignments)
+    {
+    case 0:
+        cout << "Executed the algorithm. The results are as follows:" << endl;
+        review_assigner.printResults();
+        break;
+    case 1:
+        cout << "Executed the algorithm. The results are as follows:" << endl;
+        review_assigner.printResults();
+        review_assigner.outputBatchResults(output_filename);
+        cout << "This information is available in the file Output/" << parser.getControl().OutputFileName << endl;
+        break;
+    case 2:
+        cout << "GenerateAssignments: 2 not implemented yet." << endl;
+        break;
+    case 3:
+        cout << "GenerateAssignments: 3 not implemented yet." << endl;
+        break;
+    }
 
 }

@@ -46,6 +46,7 @@ public:
     void generate(); // runs the algorithm
     void printResults() const; // prints the results
     void outputResults() const; // outputs the results to the output file
+    void outputBatchResults(const string& output_filename) const; // outputs the results to the output file given via batch mode
 
 private:
     const Parser& parser;

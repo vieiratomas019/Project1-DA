@@ -22,5 +22,6 @@ void showAll(const Parser& parser);
 void showInfoOptions();
 void showWantedInfo(const Parser& parser, string opt_list);
 void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& review_assigner);
+void handleGenerateAssignmentsBatch(const Parser& parser, const ReviewAssigner& review_assigner, const string& output_filename);
 
 #endif //PROJECT1_MENU_H

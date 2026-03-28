@@ -100,5 +100,18 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // batch mode
+    if (string(argv[1]) != "-b")
+    {
+        usage();
+        return 1;
+    }
+
+    Parser parser;
+    parser.parse("Input/" + string(argv[2]));
+    ReviewAssigner review_assigner(parser);
+    review_assigner.generate();
+    handleGenerateAssignmentsBatch(parser, review_assigner, string(argv[3]));
+
     return 0;
 }

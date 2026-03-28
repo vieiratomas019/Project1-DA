@@ -162,6 +162,41 @@ void ReviewAssigner::outputResults() const {
     // ==========================================================================================================
 }
 
+void ReviewAssigner::outputBatchResults(const string& output_filename) const {
+    if (!results.valid) {
+        std::cerr << "Results not found, please run the algorithm!\n";
+        return;
+    }
+
+    std::ofstream output_file("Output/" + output_filename);
+
+    output_file << "#SubmissionID,ReviewerID,Match\n";
+
+    for (auto relation : results.primary_rel_sub) {
+        output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+    }
+
+    output_file << "#ReviewerID,SubmissionID,Match\n";
+
+    for (auto relation : results.primary_rel_rev) {
+        output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+    }
+
+    output_file << "#Total: " << results.primary_size << "\n";
+
+    if (!results.success) {
+        output_file << "#SubmissionID, Domain, MissingReviews\n";
+        for (const MissingReview& m_r : results.missing_reviews) {
+            output_file << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
+        }
+    }
+
+    output_file.close();
+
+    // ==========================================================================================================
+    // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE
+    // ==========================================================================================================
+}
 
 void ReviewAssigner::createGraph() {
     const std::vector<Submission>& submissions = parser.getSubmissions();
