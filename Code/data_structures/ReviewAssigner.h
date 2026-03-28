@@ -38,6 +38,8 @@ struct Results {
     std::vector<MissingReview> missing_reviews;
 
     // ADD riskAnalysis info
+    int riskLevel = 0;
+    std::vector<int> riskyReviewers;
 };
 
 class ReviewAssigner {
@@ -58,6 +60,9 @@ private:
     void addEdges3();
 
     void storeResults();
+
+    bool isAssignmentValid();
+    void RiskAnalysis();
 };
 
 

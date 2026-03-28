@@ -28,6 +28,10 @@ void ReviewAssigner::generate() {
 
     // store results
     storeResults();
+
+    if (parser.getControl().RiskAnalysis == 1) {
+        RiskAnalysis();
+    }
     results.valid = true;
 }
 
@@ -121,6 +125,17 @@ void ReviewAssigner::printResults() const {
         }
     }
 
+    if (results.riskLevel == 1) {
+        std::cout << "#RiskAnalysis: 1\n";
+        if (!results.riskyReviewers.empty()) {
+            std::cout << results.riskyReviewers[0];
+            for (int i = 1; i < results.riskyReviewers.size(); i++) {
+                std::cout << ", " << results.riskyReviewers[i];
+            }
+            std::cout << "\n";
+        }
+    }
+
     // ==========================================================================================================
     // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE
     // ==========================================================================================================
@@ -152,6 +167,17 @@ void ReviewAssigner::outputResults() const {
         output_file << "#SubmissionID, Domain, MissingReviews\n";
         for (const MissingReview& m_r : results.missing_reviews) {
             output_file << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
+        }
+    }
+
+    if (results.riskLevel == 1) {
+        output_file << "#RiskAnalysis: 1\n";
+        if (!results.riskyReviewers.empty()) {
+            output_file << results.riskyReviewers[0];
+            for (int i = 1; i < results.riskyReviewers.size(); i++) {
+                output_file << ", " << results.riskyReviewers[i];
+            }
+            output_file << "\n";
         }
     }
 
@@ -216,4 +242,46 @@ void ReviewAssigner::addEdges2() {
 
 void ReviewAssigner::addEdges3() {
     /* still to be implemented */
+}
+
+bool ReviewAssigner::isAssignmentValid() {
+    int required = parser.getParameters().MinReviewsPerSubmission * graph_info.N_SUB;
+    double total = 0;
+    Vertex<int>* sink = graph_info.graph.findVertex(graph_info.sink);
+
+    for (auto e : sink->getIncoming()) {
+        total += e->getFlow();
+    }
+    return total >= required;
+}
+
+
+void ReviewAssigner::RiskAnalysis() {
+    const auto& reviewers = parser.getReviewers();
+    results.riskLevel = 1;
+    results.riskyReviewers.clear();
+
+    Vertex<int>* source = graph_info.graph.findVertex(graph_info.source);
+
+    for (int i = 0; i < graph_info.N_REV; i++) {
+        Edge<int>* e = nullptr;
+        for (Edge<int>* edge : source->getAdj()) {
+            if (edge->getDest()->getInfo() == i + 1) {
+                e = edge;
+                break;
+            }
+        }
+        if (e == nullptr) continue;
+
+        double oldWeight = e->getWeight();
+
+        e->setWeight(0);
+        edmondsKarp(&graph_info.graph, graph_info.source, graph_info.sink);
+
+        if (!isAssignmentValid()) {
+            results.riskyReviewers.push_back(reviewers[i].id);
+        }
+
+        e->setWeight(oldWeight);
+    }
 }
