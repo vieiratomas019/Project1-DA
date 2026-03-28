@@ -76,6 +76,7 @@ int main(int argc, char* argv[]) {
             int option_num;
             string opt_list;
             cin >> option_num;
+
             switch (option_num)
             {
             case 1:
@@ -85,15 +86,11 @@ int main(int argc, char* argv[]) {
                 break;
             case 2:
                 //function to create graph
+                review_assigner.generate();
                 cout << "Your Graph was created." << endl;
                 break;
             case 3:
-                //function to run the algorithm
-                review_assigner.generate();
-                review_assigner.printResults();
-                review_assigner.outputResults();
-                cout << "You can also consult this information in the file Output/" << parser.getControl().OutputFileName << endl;
-                //cout << "Algorithm not implemented yet" << endl;
+                handleGenerateAssignments(parser, review_assigner);
                 break;
             case 4:
                 //quit

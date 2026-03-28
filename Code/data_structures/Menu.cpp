@@ -9,6 +9,7 @@
 #include "Parser.h"
 using namespace std;
 
+//show the different parts of the parser object
 void showSubmissions(const Parser& parser){
     std::cout << "\n--- SUBMISSIONS ---\n";
     vector<Submission> submissions = parser.getSubmissions();
@@ -64,6 +65,7 @@ void showAll(const Parser& parser){
   showControl(parser);
 }
 
+//show the options for the menu
 void showMenu(){
   cout << "Choose an Option (type the correspondent number):" << endl;
   cout << "1. See Info" << endl;
@@ -72,6 +74,7 @@ void showMenu(){
   cout << "4. Exit" << endl;
 }
 
+//show new options when the user chooses 1 in the menu
 void showInfoOptions(){
     cout << "What Info do you wish to view?" << endl;
     cout << "If you want to view more than one field you should type the options without spaces (eg. 134)" << endl;
@@ -81,6 +84,7 @@ void showInfoOptions(){
     cout << "4. Control" << endl;
 }
 
+//handler/parser for the users input for options
 void showWantedInfo(const Parser& parser, string opt_list){
     vector<int> options;
     for (char c: opt_list)
@@ -110,4 +114,27 @@ void showWantedInfo(const Parser& parser, string opt_list){
             break;
         }
     }
+}
+
+//handler for GenerateAssignments parameter
+void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& review_assigner)
+{
+    switch (parser.getControl().GenerateAssignments)
+    {
+    case 0:
+        cout << "Executed the algorithm." << endl;
+        break;
+    case 1:
+        review_assigner.printResults();
+        review_assigner.outputResults();
+        cout << "This information is available in the file Output/" << parser.getControl().OutputFileName << endl;
+        break;
+    case 2:
+        cout << "GenerateAssignments: 2 not implemented yet." << endl;
+        break;
+    case 3:
+        cout << "GenerateAssignments: 3 not implemented yet." << endl;
+        break;
+    }
+
 }

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "Parser.h"
+#include "ReviewAssigner.h"
 
 using namespace std;
 
@@ -20,6 +21,6 @@ void showControl(const Parser& parser);
 void showAll(const Parser& parser);
 void showInfoOptions();
 void showWantedInfo(const Parser& parser, string opt_list);
-//still some missing steps
+void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& review_assigner);
 
 #endif //PROJECT1_MENU_H
