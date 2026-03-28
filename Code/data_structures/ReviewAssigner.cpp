@@ -134,13 +134,13 @@ void ReviewAssigner::outputResults() const {
 
     std::ofstream output_file("Output/" + parser.getControl().OutputFileName);
 
-    output_file << "#SubmissionID,ReviewerID,Match\n";
+    output_file << "#SubmissionId,ReviewerId,Match\n";
 
     for (auto relation : results.primary_rel_sub) {
         output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
     }
 
-    output_file << "#ReviewerID,SubmissionID,Match\n";
+    output_file << "#ReviewerId,SubmissionId,Match\n";
 
     for (auto relation : results.primary_rel_rev) {
         output_file << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
@@ -149,7 +149,7 @@ void ReviewAssigner::outputResults() const {
     output_file << "#Total: " << results.primary_size << "\n";
 
     if (!results.success) {
-        output_file << "#SubmissionID, Domain, MissingReviews\n";
+        output_file << "#SubmissionId,Domain,MissingReviews\n";
         for (const MissingReview& m_r : results.missing_reviews) {
             output_file << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
         }

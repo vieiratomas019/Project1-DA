@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>
 
 #include "data_structures/Graph.h"
 #include "data_structures/Menu.h"
@@ -12,13 +13,13 @@ void usage() {
     std::cerr << "Usage CLI: myProg\nUsage Batch: myProg -b [input_file] [output_filename]" << std::endl;
 }
 
-enum Options
+/*enum Options
 {
     INFO,
     GRAPH,
     ALGORITHM,
     EXIT
-};
+};*/
 
 int main(int argc, char* argv[]) {
     if (argc != 1 && argc != 4) {
@@ -75,7 +76,19 @@ int main(int argc, char* argv[]) {
             showMenu();
             int option_num;
             string opt_list;
-            cin >> option_num;
+
+            while (true)
+            {
+                cin >> option_num;
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "Invalid input, please enter a number 1-5: ";
+                } else {
+                    break;
+                }
+            }
 
             switch (option_num)
             {
@@ -87,7 +100,7 @@ int main(int argc, char* argv[]) {
             case 2:
                 //function to create graph
                 review_assigner.generate();
-                cout << "Your Graph was created." << endl;
+                cout << "Invalid input, please enter a number 1-5" << endl;
                 break;
             case 3:
                 handleGenerateAssignments(parser, review_assigner);
@@ -98,6 +111,10 @@ int main(int argc, char* argv[]) {
             case 5:
                 //quit
                 exit(EXIT_SUCCESS);
+            default:
+                //error message
+                cout << "Option Should be 1-5" << endl;
+                break;
             }
 
         }
