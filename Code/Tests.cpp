@@ -22,10 +22,23 @@ vector<string> parseLines(const string& filename){
     return res;
 }
 
+void rodar(){
+    for (int i = 1; i <= 14; i++)
+    {
+        Parser parser;
+        parser.parse("Input/dataset" + to_string(i) + ".csv");
+        parser.setOutputFilename("output_dataset" + to_string(i) + ".csv");
+        ReviewAssigner review_assigner(parser);
+
+        review_assigner.generate();
+        review_assigner.outputResults();
+    }
+}
+
 bool validateOutput(const string& filename){
     bool correct = true;
     vector<string> output = parseLines("Output/output_" + filename);
-    vector<string> expected = parseLines("Expected_Output/" + filename);
+    vector<string> expected = parseLines("Expected_Output/output_" + filename);
 
     if (output.size() != expected.size()){correct = false;}
 
@@ -38,7 +51,11 @@ bool validateOutput(const string& filename){
 
 int main()
 {
-    if (validateOutput("dataset13.csv")){cout << "Output is correct!" << endl;}
-    else{cout << "Output is incorrect!" << endl;}
+    rodar();
+    for (int i = 1; i <= 14; i++)
+    {
+        if (validateOutput("dataset" + to_string(i) + ".csv")){cout << "Output is correct!" << endl;}
+        else{cout << "Output is incorrect!" << endl;}
+    }
     return 0;
 }

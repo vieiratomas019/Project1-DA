@@ -5,6 +5,7 @@
 #include "ReviewAssigner.h"
 
 #include <map>
+using namespace std;
 
 #include "../algorithms/edmonds_karp.h"
 
@@ -124,6 +125,9 @@ void ReviewAssigner::printResults() const {
                 std::cout << ", " << results.riskyReviewers[i];
             }
             std::cout << "\n";
+        } else
+        {
+            cout << "\n";
         }
     }
 
@@ -168,6 +172,9 @@ void ReviewAssigner::outputResults() const {
             for (int i = 1; i < results.riskyReviewers.size(); i++) {
                 output_file << ", " << results.riskyReviewers[i];
             }
+            output_file << "\n";
+        } else
+        {
             output_file << "\n";
         }
     }
