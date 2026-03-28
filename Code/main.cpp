@@ -93,6 +93,9 @@ int main(int argc, char* argv[]) {
                 handleGenerateAssignments(parser, review_assigner);
                 break;
             case 4:
+                changeVariable(parser);
+                break;
+            case 5:
                 //quit
                 exit(EXIT_SUCCESS);
             }
@@ -100,7 +103,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // batch mode
+    // batch mode: -b dataset1.csv output_dataset1.csv
     if (string(argv[1]) != "-b")
     {
         usage();

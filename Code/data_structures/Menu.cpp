@@ -71,7 +71,8 @@ void showMenu(){
   cout << "1. See Info" << endl;
   cout << "2. Create the Graph" << endl;
   cout << "3. Run the Algorithm" << endl;
-  cout << "4. Exit" << endl;
+  cout << "4. Edit Control Values" << endl;
+  cout << "5. Exit" << endl;
 }
 
 //show new options when the user chooses 1 in the menu
@@ -122,6 +123,7 @@ void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& revie
     switch (parser.getControl().GenerateAssignments)
     {
     case 0:
+        review_assigner.printResults();
         cout << "Executed the algorithm." << endl;
         break;
     case 1:
@@ -159,5 +161,38 @@ void handleGenerateAssignmentsBatch(const Parser& parser, const ReviewAssigner& 
         cout << "GenerateAssignments: 3 not implemented yet." << endl;
         break;
     }
+}
 
+void changeVariable(Parser& parser)
+{
+    string variable;
+    cout << "Which Variable would you like to change (type GenerateAssignments, RiskAnalysis or OutputFileName): ";
+    cin >> variable;
+    cout << "What should the New Value be: ";
+
+    // GenerateAssignments and RiskAnalysis take ints while OutputFileName takes strings
+    if (variable == "GenerateAssignments")
+    {
+        int new_value;
+        cin >> new_value;
+
+        parser.setGenerateAssignemnts(new_value);
+    } else if (variable == "RiskAnalysis")
+    {
+        int new_value;
+        cin >> new_value;
+
+        if (new_value >= 0 && new_value <= 3)
+        {
+            parser.setRiskAnalysis(new_value);
+        }
+    } else if (variable == "OutputFileName")
+    {
+        string new_value;
+        cin >> new_value;
+
+        parser.setOutputFilename(new_value);
+    }
+
+    cout << "Changes were applied." << endl;
 }

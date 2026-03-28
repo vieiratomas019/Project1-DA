@@ -36,7 +36,7 @@ struct Parameters{
 struct Control{
   int GenerateAssignments;
   int RiskAnalysis = 0;
-  string OutputFileName;
+  string OutputFileName = "output.csv";
 };
 
 class Parser{
@@ -48,7 +48,12 @@ public:
   const vector<Submission>& getSubmissions() const { return submissions; }
   const vector<Reviewer>& getReviewers() const { return reviewers; }
   const Parameters& getParameters() const { return paramos; }
-  const Control& getControl() const { return ctrl; }
+  Control getControl() const { return ctrl; }
+
+  // setters for control values (needed for changeVariable)
+  void setGenerateAssignemnts(int new_value){ ctrl.GenerateAssignments = new_value;}
+  void setRiskAnalysis(int new_value){ctrl.RiskAnalysis = new_value;}
+  void setOutputFilename(string& new_value){ctrl.OutputFileName = new_value;}
 
 
 private:
