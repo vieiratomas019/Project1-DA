@@ -39,6 +39,8 @@ struct Results {
     std::vector<MissingReview> missing_reviews;
 
     // ADD riskAnalysis info
+    int riskLevel = 0;
+    std::vector<int> riskyReviewers;
 };
 
 class ReviewAssigner {
@@ -67,6 +69,9 @@ private:
     int matchesByMode(int mode, const Reviewer& rev, const Submission& sub);
 
     void storeResults();
+
+    bool isAssignmentValid();
+    void RiskAnalysis();
 };
 
 

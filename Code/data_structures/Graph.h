@@ -90,6 +90,8 @@ public:
     void setReverse(Edge<T> *reverse);
     void setFlow(double flow);
     void setDomain(int domain);
+
+    void setWeight(double weight);
 protected:
     Vertex<T> * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity
@@ -381,6 +383,12 @@ template<class T>
 void Edge<T>::setDomain(int domain) {
     this->domain = domain;
 }
+
+template<class T>
+void Edge<T>::setWeight(double weight) {
+    this->weight = weight;
+}
+
 
 /********************** Graph  ****************************/
 
