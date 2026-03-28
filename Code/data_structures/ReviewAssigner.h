@@ -65,7 +65,6 @@ private:
      */
     int matchesByMode(int mode, const Reviewer& rev, const Submission& sub);
 
-
     void storeResults();
 };
 
