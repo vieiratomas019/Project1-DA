@@ -129,9 +129,10 @@ int main(int argc, char* argv[]) {
 
     Parser parser;
     parser.parse("Input/" + string(argv[2]));
+    parser.setOutputFilename(string(argv[3]));
     ReviewAssigner review_assigner(parser);
     review_assigner.generate();
-    handleGenerateAssignmentsBatch(parser, review_assigner, string(argv[3]));
+    handleGenerateAssignments(parser, review_assigner);
 
     return 0;
 }

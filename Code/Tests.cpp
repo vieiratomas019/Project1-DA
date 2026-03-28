@@ -38,7 +38,7 @@ bool validateOutput(const string& filename){
 
 int main()
 {
-    if (validateOutput("dataset1.csv")){cout << "Output is correct!" << endl;}
+    if (validateOutput("dataset12.csv")){cout << "Output is correct!" << endl;}
     else{cout << "Output is incorrect!" << endl;}
     return 0;
 }

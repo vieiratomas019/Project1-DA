@@ -53,7 +53,7 @@ public:
   // setters for control values (needed for changeVariable)
   void setGenerateAssignemnts(int new_value){ ctrl.GenerateAssignments = new_value;}
   void setRiskAnalysis(int new_value){ctrl.RiskAnalysis = new_value;}
-  void setOutputFilename(string& new_value){ctrl.OutputFileName = new_value;}
+  void setOutputFilename(string new_value){ctrl.OutputFileName = new_value;}
 
 
 private:
