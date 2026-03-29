@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
             {
                 cin >> option_num;
 
-                if (cin.fail()) {
+                if (cin.fail() || option_num < 1 || option_num > 5) {
                     cin.clear();
                     cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
                     cout << "Invalid input, please enter a number 1-5: ";
@@ -94,16 +94,28 @@ int main(int argc, char* argv[]) {
             {
             case 1:
                 showInfoOptions();
-                cin >> opt_list;
-                showWantedInfo(parser, opt_list);
+                while (true)
+                {
+                    bool correct = true;
+                    cin >> opt_list;
+                    for (char c: opt_list)
+                    {
+                        if (c < '1' || c > '4'){correct = false; break;}
+                    }
+                    if (correct){showWantedInfo(parser, opt_list); break;}
+                    else{cout << "Options should be 1-4. Try again: ";}
+                }
                 break;
             case 2:
                 //function to create graph
                 review_assigner.generate();
-                cout << "Invalid input, please enter a number 1-5" << endl;
+                cout << "Your Graph was created." << endl;
                 break;
             case 3:
-                handleGenerateAssignments(parser, review_assigner);
+                if (review_assigner.getValid())
+                {
+                    handleGenerateAssignments(parser, review_assigner);
+                } else{cout << "You should create the Graph before running the Algorithm." << endl;}
                 break;
             case 4:
                 changeVariable(parser);
@@ -111,10 +123,10 @@ int main(int argc, char* argv[]) {
             case 5:
                 //quit
                 exit(EXIT_SUCCESS);
-            default:
+            /*default:
                 //error message
                 cout << "Option Should be 1-5" << endl;
-                break;
+                break;*/
             }
 
         }

@@ -35,18 +35,18 @@ void rodar(){
     }
 }
 
-bool validateOutput(const string& filename){
-    bool correct = true;
+vector<string> validateOutput(const string& filename){
+    vector<string> incorrect_lines;
     vector<string> output = parseLines("Output/output_" + filename);
     vector<string> expected = parseLines("Expected_Output/output_" + filename);
 
-    if (output.size() != expected.size()){correct = false;}
+    if (output.size() != expected.size()){incorrect_lines.push_back("Incorrect number of lines");}
 
     for (int i = 0; i < output.size(); i++)
     {
-        if (output[i] != expected[i]){correct = false;}
+        if (output[i] != expected[i]){incorrect_lines.push_back(output[i]); incorrect_lines.push_back(expected[i]);}
     }
-    return correct;
+    return incorrect_lines;
 }
 
 int main()
@@ -54,8 +54,16 @@ int main()
     rodar();
     for (int i = 1; i <= 14; i++)
     {
-        if (validateOutput("dataset" + to_string(i) + ".csv")){cout << "Output is correct!" << endl;}
-        else{cout << "Output is incorrect!" << endl;}
+        vector<string> res = validateOutput("dataset" + to_string(i) + ".csv");
+        if (res.empty()){cout << "Output " + to_string(i) + " is correct!" << endl;}
+        else
+        {
+            cout << "=======================================" << endl;
+            cout << "Output " + to_string(i) + " is incorrect!" << endl;
+            cout << "First Incorrect Line: " << res[0] << endl;
+            cout << "Should be: " << res[1] << endl;
+            cout << "=======================================" << endl;
+        }
     }
     return 0;
 }

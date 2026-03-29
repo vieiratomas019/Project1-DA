@@ -90,11 +90,8 @@ void showWantedInfo(const Parser& parser, string opt_list){
     vector<int> options;
     for (char c: opt_list)
     {
-        if (c >= '1' && c <= '4')
-        {
-            int n = c - '0';
-            options.push_back(n);
-        }
+        int n = c - '0';
+        options.push_back(n);
     }
 
     for (int option : options)
@@ -132,35 +129,59 @@ void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& revie
     }
 }
 
+enum Option{GENERATE, RISK, OUTPUT};
+
 void changeVariable(Parser& parser)
 {
     string variable;
     cout << "Which Variable would you like to change (type GenerateAssignments, RiskAnalysis or OutputFileName): ";
-    cin >> variable;
+
+    while (true)
+    {
+        cin >> variable;
+        if (variable == "GenerateAssignments" || variable == "RiskAnalysis" || variable == "OutputFileName"){break;}
+
+        cout << "Variable should either be GenerateAssignments, RiskAnalysis or OutputFileName. Try again: ";
+    }
     cout << "What should the New Value be: ";
 
     // GenerateAssignments and RiskAnalysis take ints while OutputFileName takes strings
-    if (variable == "GenerateAssignments")
-    {
-        int new_value;
-        cin >> new_value;
+    Option option;
+    if (variable == "GenerateAssignments"){option = GENERATE;}
+    if (variable == "RiskAnalysis"){option = RISK;}
+    if (variable == "OutputFileName"){option = OUTPUT;}
 
-        parser.setGenerateAssignemnts(new_value);
-    } else if (variable == "RiskAnalysis")
+    switch (option)
     {
-        int new_value;
-        cin >> new_value;
-
-        if (new_value >= 0 && new_value <= 3)
+    case GENERATE:
+        int new_gen;
+        while (true)
         {
-            parser.setRiskAnalysis(new_value);
-        }
-    } else if (variable == "OutputFileName")
-    {
-        string new_value;
-        cin >> new_value;
+            cin >> new_gen;
+            if (new_gen >= 0 && new_gen <= 3){break;}
 
-        parser.setOutputFilename(new_value);
+            cout << "GenerateAssignments should be 0-3. Try again: ";
+        }
+
+        parser.setGenerateAssignemnts(new_gen);
+        break;
+    case RISK:
+        int new_risk;
+        while (true)
+        {
+            cin >> new_risk;
+            if (new_risk == 0 || new_risk == 1){break;}
+
+            cout << "RiskAnalysis should be either 0 or 1. Try again: ";
+        }
+
+        parser.setRiskAnalysis(new_risk);
+        break;
+    case OUTPUT:
+        string new_name;
+        cin >> new_name;
+
+        parser.setOutputFilename(new_name);
     }
 
     cout << "Changes were applied." << endl;
