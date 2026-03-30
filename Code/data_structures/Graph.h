@@ -456,7 +456,7 @@ bool Graph<T>::removeVertex(const T &in) {
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
+ * Returns a pointer to the edge if successful, and nullptr if the source or destination vertex does not exist.
  */
 template <class T>
 Edge<T>* Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
