@@ -47,6 +47,7 @@ class ReviewAssigner {
 public:
     /**
 * @brief Creates the graph
+* @param parser reference to object parser that contains the desired info
 */
     ReviewAssigner(const Parser& parser);
     /**
