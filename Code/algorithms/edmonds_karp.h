@@ -5,7 +5,15 @@
 
 #include "../data_structures/Graph.h"
 
-// Function to test the given vertex 'w' and visit it if conditions are met
+
+/**
+ * @brief Function to test the given vertex 'w' and visit it if conditions are met
+ * @param q pointer to the queue
+ * @param e pointer to the edge that reaches w
+ * @param w pointer to the vertex
+ * @param residual residual capacity of the edge
+ * @note Time Complexity: O(1)
+ */
 template <class T>
 void testAndVisit(std::queue< Vertex<T>*> &q, Edge<T> *e, Vertex<T> *w, double residual) {
     // Check if the vertex 'w' is not visited and there is residual capacity
@@ -17,7 +25,13 @@ void testAndVisit(std::queue< Vertex<T>*> &q, Edge<T> *e, Vertex<T> *w, double r
     }
 }
 
-// Function to find an augmenting path using Breadth-First Search
+/**
+ * @brief Function to find an augmenting path using Breadth-First Search
+ * @param g pointer to the graph
+ * @param s pointer to the sink vertex
+ * @param t pointer to the target vertex
+ * @note Time Complexity: O(V + E), V: number of vertices, E: number of edges
+ */
 template <class T>
 bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
     // Mark all vertices as not visited
@@ -56,7 +70,12 @@ bool findAugmentingPath(Graph<T> *g, Vertex<T> *s, Vertex<T> *t) {
     return t->isVisited();
 }
 
-// Function to find the minimum residual capacity along the augmenting path
+/**
+ * @brief Function to find the minimum residual capacity along the augmenting path
+ * @param s pointer to the sink vertex
+ * @param t pointer to the target vertex
+ * @note Time Complexity: O(V + E), V: number of vertices, E: number of edges
+ */
 template <class T>
 double findMinResidualAlongPath(Vertex<T> *s, Vertex<T> *t) {
     double f = INF;
@@ -82,7 +101,13 @@ double findMinResidualAlongPath(Vertex<T> *s, Vertex<T> *t) {
     return f;
 }
 
-// Function to augment flow along the augmenting path with the given flow value
+/**
+ * @brief Function to augment flow along the augmenting path with the given flow value
+ * @param s pointer to the sink vertex
+ * @param t pointer to the target vertex
+ * @param f flow that we will augment
+ * @note Time Complexity: O(V + E), V: number of vertices, E: number of edges
+ */
 template <class T>
 void augmentFlowAlongPath(Vertex<T> *s, Vertex<T> *t, double f) {
     // Traverse the augmenting path and update the flow values accordingly

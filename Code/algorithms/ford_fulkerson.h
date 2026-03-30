@@ -7,7 +7,13 @@
 
 using namespace std;
 
-// Function to perform DFS and find an augmenting path
+/**
+ * @brief Function to perform DFS and find an augmenting path
+ * @param v pointer to the vertex
+ * @param t pointer to the target vertex
+ * @param flow flow that we will augment
+ * @note Time Complexity: O(V + E), V: number of vertices, E: number of edges
+ */
 template <class T>
 bool dfsFindAugmentingPath(Vertex<T>* v, Vertex<T>* t, double& flow) {
     if (v == t) return true;

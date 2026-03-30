@@ -7,7 +7,7 @@
 #include <map>
 using namespace std;
 
-#include "../algorithms/edmonds_karp.h"
+#include "../algorithms/ford_fulkerson.h"
 
 ReviewAssigner::ReviewAssigner(const Parser &parser) : parser(parser), graph_info() {
     createGraph();
@@ -16,7 +16,7 @@ ReviewAssigner::ReviewAssigner(const Parser &parser) : parser(parser), graph_inf
 
 void ReviewAssigner::generate() {
     // run the algorithm on the graph
-    edmondsKarp(&graph_info.graph, graph_info.source, graph_info.sink);
+    fordFulkerson(&graph_info.graph, graph_info.source, graph_info.sink);
 
     // store results
     storeResults();
@@ -294,7 +294,7 @@ void ReviewAssigner::RiskAnalysis() {
         double oldWeight = e->getWeight();
 
         e->setWeight(0);
-        edmondsKarp(&graph_info.graph, graph_info.source, graph_info.sink);
+        fordFulkerson(&graph_info.graph, graph_info.source, graph_info.sink);
 
         if (!isAssignmentValid()) {
             results.riskyReviewers.push_back(reviewers[i].id);

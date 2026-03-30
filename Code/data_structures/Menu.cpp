@@ -58,13 +58,6 @@ void showControl(const Parser& parser){
     std::cout << "OutputFileName: " << ctrl.OutputFileName << std::endl;
 }
 
-void showAll(const Parser& parser){
-  showSubmissions(parser);
-  showReviewers(parser);
-  showParameters(parser);
-  showControl(parser);
-}
-
 //show the options for the menu
 void showMenu(){
   cout << "Choose an Option (type the correspondent number):" << endl;
@@ -180,6 +173,12 @@ void changeVariable(Parser& parser)
     case OUTPUT:
         string new_name;
         cin >> new_name;
+
+        string csv = new_name.substr(new_name.length() - 4, 4);
+        if (csv.compare(".csv"))
+        {
+            new_name += ".csv";
+        }
 
         parser.setOutputFilename(new_name);
     }

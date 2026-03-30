@@ -45,11 +45,25 @@ struct Results {
 
 class ReviewAssigner {
 public:
-    ReviewAssigner(const Parser& parser); // creates graph
-    void generate(); // runs the algorithm
-    void printResults() const; // prints the results
-    void outputResults() const; // outputs the results to the output file
-    void outputBatchResults(const string& output_filename) const; // outputs the results to the output file given via batch mode
+    /**
+* @brief Creates the graph
+*/
+    ReviewAssigner(const Parser& parser);
+    /**
+* @brief Runs the algorithm
+*/
+    void generate();
+    /**
+* @brief Prints the results to the console
+*/
+    void printResults() const;
+    /**
+* @brief Outputs the results to the output file
+*/
+    void outputResults() const;
+    /**
+* @brief Returns the valid state of a Results object
+*/
     bool getValid() const{return results.valid;}
 
 private:
@@ -60,13 +74,6 @@ private:
     void createGraph();
     void addEdges();
 
-    /**
-     *
-     * @param mode GenerateAssignments integer
-     * @param rev Reviewer object
-     * @param sub Submission object
-     * @return returns 0 when there is no match, returns the domain matched when there is a match
-     */
     int matchesByMode(int mode, const Reviewer& rev, const Submission& sub);
 
     void storeResults();

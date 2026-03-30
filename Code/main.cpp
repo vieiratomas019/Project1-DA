@@ -4,7 +4,6 @@
 #include "data_structures/Graph.h"
 #include "data_structures/Menu.h"
 #include "algorithms/edmonds_karp.h"
-#include "algorithms/ford_fulkerson.h"
 #include "data_structures/Parser.h"
 #include "data_structures/ReviewAssigner.h"
 using namespace std;
@@ -56,6 +55,12 @@ int main(int argc, char* argv[]) {
 
             // early exit
             if (filename == quit) exit(EXIT_SUCCESS);
+
+            string csv = filename.substr(filename.length() - 4, 4);
+            if (csv.compare(".csv"))
+            {
+                filename += ".csv";
+            }
 
             try
             {

@@ -6,12 +6,8 @@
 
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <limits>
-#include <algorithm>
 
 #include "MutablePriorityQueue.h"
-// #include "../data_structures/MutablePriorityQueue.h" // not needed for now
 
 template <class T>
 class Edge;
