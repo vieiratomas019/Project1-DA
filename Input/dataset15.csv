@@ -1,0 +1,21 @@
+#Submissions
+#Id, Title, Authors, E-mail, Primary, Secondary
+10, "Quantum Computing", "Physics Dept", q@u.pt, 1, 2
+20, "Machine Learning", "CS Dept", m@u.pt, 3, 4
+#
+#Reviewers
+#Id, Name, E-mail, Primary, Secondary
+1, "Expert em Física", r1@u.pt, 1, 3
+2, "Expert em Bio", r2@u.pt, 5, 2
+3, "Expert em Redes", r3@u.pt, 6, 4
+#Parameters
+MinReviewsPerSubmission, 2
+MaxReviewsPerReviewer, 2
+PrimaryReviewerExpertise, 1
+SecondaryReviewerExpertise, 1
+PrimarySubmissionDomain, 1
+SecondarySubmissionDomain, 1
+#Control
+GenerateAssignments, 3
+RiskAnalysis, 0
+OutputFileName, "res_general.csv"

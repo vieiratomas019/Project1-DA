@@ -96,40 +96,50 @@ void ReviewAssigner::printResults() const {
         return;
     }
 
-    std::cout << "#SubmissionID, ReviewerID, Match\n";
+    std::cout << "\n";
+    std::cout << "\033[34m" << "  ╔══════════════════════════════════════╗\n" << "\033[0m";
+    std::cout << "\033[34m" << "  ║             RESULTS                  ║\n" << "\033[0m";
+    std::cout << "\033[34m" << "  ╠══════════════════════════════════════╣\n" << "\033[0m";
 
+    std::cout << "     #SubmissionID, ReviewerID, Match     \n";
     for (auto relation : results.primary_rel_sub) {
-        std::cout << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+        std::cout << "    " << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << "\n";
     }
 
-    std::cout << "#ReviewerID, SubmissionID, Match\n";
-
+    std::cout << "  ╠══════════════════════════════════════╣\n";
+    std::cout << "     #ReviewerID, SubmissionID, Match     \n";
     for (auto relation : results.primary_rel_rev) {
-        std::cout << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << std::endl;
+        std::cout << "    " << get<0>(relation) << ", " << get<1>(relation) << ", " << get<2>(relation) << "\n";
     }
 
-    std::cout << "#Total: " << results.primary_size << "\n";
+    std::cout << "  ╠══════════════════════════════════════╣\n";
+    std::cout << "     #Total: " << results.primary_size << "\n";
 
     if (!results.success) {
-        std::cout << "#SubmissionID, Domain, MissingReviews\n";
+        std::cout << "  ╠══════════════════════════════════════╣\n";
+        std::cout << "     #SubmissionID, Domain, MissingReviews \n";
         for (const MissingReview& m_r : results.missing_reviews) {
-            std::cout << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << std::endl;
+            std::cout << "    " << m_r.sub_id << ", " << m_r.domain << ", " << m_r.count << "\n";
         }
     }
 
     if (results.riskLevel == 1) {
-        std::cout << "#Risk Analysis: 1\n";
+        std::cout << "  ╠══════════════════════════════════════╣\n";
+        std::cout << "     #Risk Analysis: 1\n";
         if (!results.riskyReviewers.empty()) {
-            std::cout << results.riskyReviewers[0];
-            for (int i = 1; i < results.riskyReviewers.size(); i++) {
+            std::cout << "     " << results.riskyReviewers[0];
+            for (int i = 1; i < results.riskyReviewers.size(); i++)
+            {
                 std::cout << ", " << results.riskyReviewers[i];
             }
             std::cout << "\n";
         } else
         {
-            cout << "\n";
+            std::cout << "  \n";
         }
     }
+
+    std::cout << "  ╚══════════════════════════════════════╝\n";
 
     // ==========================================================================================================
     // THE RESULTS MUST BE DIFFERENT DEPENDING ON THE PARAMETERS THIS IS STILL NOT DONE

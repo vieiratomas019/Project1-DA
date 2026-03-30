@@ -50,11 +50,31 @@ int main(int argc, char* argv[]) {
             string filename;
             string quit = "quit";
 
-            cout << "Type your Input File Name (type " + quit + " to exit): ";
+            cout << R"(
+             ,----------------,                 ,---------,
+           ,-----------------------,          ,"        ,"|
+         ,"                      ,"|        ,"        ,"  |
+        +-----------------------+  |      ,"        ,"    |
+        |  .-----------------.  |  |     +---------+      |
+        |  |                 |  |  |     | -==----'|      |
+        |  |  Type filename  |  |  |     |         |      |
+        |  |  or 'quit' to   |  |  |/----|`---=    |      |
+        |  |  exit:>_        |  |  |   ,/|==== ooo |      ;
+        |  |                 |  |  |  // |(((( [33]|    ,"
+        |  `-----------------'  |," .;'| |((((     |  ,"
+        +-----------------------+  ;;  | |         |,"
+           /_)______________(_/  //'   | +---------+
+      ___________________________/___  `,
+     /  oooooooooooooooo  .o.  oooo /,   \,"-----------
+    / ==ooooooooooooooo==.o.  ooo= //   ,`\--{)B     ,"
+   /_==__==========__==_ooo__ooo=_/'   /___________,"
+   `-----------------------------'
+)";
+            cout << "  Filename: ";
             cin >> filename;
 
             // early exit
-            if (filename == quit) exit(EXIT_SUCCESS);
+            if (filename == quit) {byebye(); exit(EXIT_SUCCESS);}
 
             string csv = filename.substr(filename.length() - 4, 4);
             if (csv.compare(".csv"))
@@ -114,19 +134,21 @@ int main(int argc, char* argv[]) {
             case 2:
                 //function to create graph
                 review_assigner.generate();
+                cout << "\n" << endl;
                 cout << "Your Graph was created." << endl;
                 break;
             case 3:
                 if (review_assigner.getValid())
                 {
                     handleGenerateAssignments(parser, review_assigner);
-                } else{cout << "You should create the Graph before running the Algorithm." << endl;}
+                } else{cout << "\n"; cout << "You should create the Graph before running the Algorithm." << endl;}
                 break;
             case 4:
                 changeVariable(parser);
                 break;
             case 5:
                 //quit
+                byebye();
                 exit(EXIT_SUCCESS);
             /*default:
                 //error message

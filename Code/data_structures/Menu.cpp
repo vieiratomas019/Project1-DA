@@ -11,71 +11,96 @@ using namespace std;
 
 //show the different parts of the parser object
 void showSubmissions(const Parser& parser){
-    std::cout << "\n--- SUBMISSIONS ---\n";
     vector<Submission> submissions = parser.getSubmissions();
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║                      SUBMISSIONS                             ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════════════════════════════╣" << endl << "\033[0m";
     for (const auto& s : submissions) {
-        std::cout << "ID: " << s.id;
-        std::cout << " | Title: " << s.title;
-
-        // Loop through the authors vector safely
-        std::cout << " | Authors: " << s.authors;
-
-        std::cout << " | Email: " << s.email;
-        std::cout << " | Primary: " << s.primary;
-        std::cout << " | Secondary: " << s.secondary << std::endl;
+        cout << "       ID: " << s.id << endl;
+        cout << "       Title: " << s.title << endl;
+        cout << "       Authors: " << s.authors << endl;
+        cout << "       Email: " << s.email << endl;
+        cout << "       Primary: " << s.primary << endl;
+        cout << "       Secondary: " << s.secondary << endl;
+        cout << "  ╠══════════════════════════════════════════════════════════════╣" << endl;
     }
 }
 
 void showReviewers(const Parser& parser){
-  std::cout << "\n--- REVIEWERS ---\n";
     vector<Reviewer> reviewers = parser.getReviewers();
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║                       REVIEWERS                              ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════════════════════════════╣" << endl << "\033[0m";
     for (const auto& r : reviewers) {
-        std::cout << "ID: " << r.id;
-        std::cout << " | Name: " << r.name;
-        std::cout << " | Email: " << r.email;
-        std::cout << " | Primary: " << r.primary;
-        std::cout << " | Secondary: " << r.secondary << std::endl;
+        cout << "     ID: " << r.id << endl;
+        cout << "     Name: " << r.name << endl;
+        cout << "     Email: " << r.email << endl;
+        cout << "     Primary: " << r.primary << endl;
+        cout << "     Secondary: " << r.secondary << endl;
+        cout << "  ╚══════════════════════════════════════════════════════════════╝" << endl;
     }
-    std::cout << "\n";
 }
 
 void showParameters(const Parser& parser){
     Parameters params = parser.getParameters();
-    std::cout << "\n--- PARAMETERS ---\n";
-    std::cout << "MinReviewsPerSubmission: " << params.MinReviewsPerSubmission << std::endl;
-    std::cout << "MaxReviewsPerReviewer: " << params.MaxReviewsPerReviewer << std::endl;
-    std::cout << "PrimaryReviewerExpertise: " << params.PrimaryReviewerExpertise << std::endl;
-    std::cout << "SecondaryReviewerExpertise: " << params.SecondaryReviewerExpertise << std::endl;
-    std::cout << "PrimarySubmissionDomain: " << params.PrimarySubmissionDomain << std::endl;
-    std::cout << "SecondarySubmissionDomain: " << params.SecondarySubmissionDomain << std::endl;
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║                      PARAMETERS                              ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════════════════════════════╣" << endl << "\033[0m";
+    cout << "    MinReviewsPerSubmission:   " << params.MinReviewsPerSubmission << endl;
+    cout << "    MaxReviewsPerReviewer:     " << params.MaxReviewsPerReviewer << endl;
+    cout << "    PrimaryReviewerExpertise:  " << params.PrimaryReviewerExpertise  << endl;
+    cout << "    SecondaryReviewerExpertise:" << params.SecondaryReviewerExpertise<< endl;
+    cout << "    PrimarySubmissionDomain:   " << params.PrimarySubmissionDomain   << endl;
+    cout << "    SecondarySubmissionDomain: " << params.SecondarySubmissionDomain << endl;
+    cout << "  ╚══════════════════════════════════════════════════════════════╝" << endl;
 }
 
 void showControl(const Parser& parser){
     Control ctrl = parser.getControl();
-    std::cout << "\n--- CONTROL ---\n";
-    std::cout << "GenerateAssignments: " << ctrl.GenerateAssignments << std::endl;
-    std::cout << "RiskAnalysis: " << ctrl.RiskAnalysis << std::endl;
-    std::cout << "OutputFileName: " << ctrl.OutputFileName << std::endl;
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║                       CONTROL                                ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════════════════════════════╣" << endl << "\033[0m";
+    cout << "    GenerateAssignments: " << ctrl.GenerateAssignments << endl;
+    cout << "    RiskAnalysis:        " << ctrl.RiskAnalysis << endl;
+    cout << "    OutputFileName:      " << ctrl.OutputFileName << endl;
+    cout << "  ╚══════════════════════════════════════════════════════════════╝" << endl;
 }
 
 //show the options for the menu
 void showMenu(){
-  cout << "Choose an Option (type the correspondent number):" << endl;
-  cout << "1. See Info" << endl;
-  cout << "2. Create the Graph" << endl;
-  cout << "3. Run the Algorithm" << endl;
-  cout << "4. Edit Control Values" << endl;
-  cout << "5. Exit" << endl;
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║       Choose an option (1-5):        ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════╣" << endl << "\033[0m";
+    cout << "  ║  1.  See Info                        ║" << endl;
+    cout << "  ║  2.  Create the Graph                ║" << endl;
+    cout << "  ║  3.  Run the Algorithm               ║" << endl;
+    cout << "  ║  4.  Edit Control Values             ║" << endl;
+    cout << "  ║  5.  Exit                            ║" << endl;
+    cout << "  ╚══════════════════════════════════════╝" << endl;
+    cout << "  Choose options (1-5): ";
 }
 
 //show new options when the user chooses 1 in the menu
 void showInfoOptions(){
-    cout << "What Info do you wish to view?" << endl;
-    cout << "If you want to view more than one field you should type the options without spaces (eg. 134)" << endl;
-    cout << "1. Submissions" << endl;
-    cout << "2. Reviewers" << endl;
-    cout << "3. Parameters" << endl;
-    cout << "4. Control" << endl;
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════╗" << endl << "\033[0m";
+    cout << "\033[34m" << "  ║            View Info                 ║" << endl << "\033[0m";
+    cout << "\033[34m" << "  ╠══════════════════════════════════════╣" << endl << "\033[0m";
+    cout << "  ║  1.  Submissions                     ║" << endl;
+    cout << "  ║  2.  Reviewers                       ║" << endl;
+    cout << "  ║  3.  Parameters                      ║" << endl;
+    cout << "  ║  4.  Control                         ║" << endl;
+    cout << "  ╠══════════════════════════════════════╣" << endl;
+    cout << "  ║  Combine options without spaces      ║" << endl;
+    cout << "  ║  e.g. 134 = Submissions + Params     ║" << endl;
+    cout << "  ║             + Control                ║" << endl;
+    cout << "  ╚══════════════════════════════════════╝" << endl;
+    cout << "  Choose options (1-4): ";
 }
 
 //handler/parser for the users input for options
@@ -114,6 +139,7 @@ void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& revie
     {
         review_assigner.printResults();
         review_assigner.outputResults();
+        cout << endl;
         cout << "This information is available in the file Output/" << parser.getControl().OutputFileName << endl;
     } else
     {
@@ -127,16 +153,26 @@ enum Option{GENERATE, RISK, OUTPUT};
 void changeVariable(Parser& parser)
 {
     string variable;
-    cout << "Which Variable would you like to change (type GenerateAssignments, RiskAnalysis or OutputFileName): ";
+
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════╗\n" << "\033[0m";
+    cout << "\033[34m" << "  ║          EDIT CONTROL VALUES         ║\n" << "\033[0m";
+    cout<< "\033[34m"  << "  ╠══════════════════════════════════════╣\n" << "\033[0m";
+    cout << "  ║  Variables:                          ║\n";
+    cout << "  ║  - GenerateAssignments (0-3)         ║\n";
+    cout << "  ║  - RiskAnalysis        (0-1)         ║\n";
+    cout << "  ║  - OutputFileName      (string)      ║\n";
+    cout << "  ╚══════════════════════════════════════╝\n";
+    cout << "  Which variable would you like to change: ";
 
     while (true)
     {
         cin >> variable;
         if (variable == "GenerateAssignments" || variable == "RiskAnalysis" || variable == "OutputFileName"){break;}
 
-        cout << "Variable should either be GenerateAssignments, RiskAnalysis or OutputFileName. Try again: ";
+        cout << "  Variable should either be GenerateAssignments, RiskAnalysis or OutputFileName. Try again: ";
     }
-    cout << "What should the New Value be: ";
+    cout << "  What should the new value be: ";
 
     // GenerateAssignments and RiskAnalysis take ints while OutputFileName takes strings
     Option option;
@@ -153,7 +189,7 @@ void changeVariable(Parser& parser)
             cin >> new_gen;
             if (new_gen >= 0 && new_gen <= 3){break;}
 
-            cout << "GenerateAssignments should be 0-3. Try again: ";
+            cout << "  GenerateAssignments should be 0-3. Try again: ";
         }
 
         parser.setGenerateAssignemnts(new_gen);
@@ -165,7 +201,7 @@ void changeVariable(Parser& parser)
             cin >> new_risk;
             if (new_risk == 0 || new_risk == 1){break;}
 
-            cout << "RiskAnalysis should be either 0 or 1. Try again: ";
+            cout << "  RiskAnalysis should be either 0 or 1. Try again: ";
         }
 
         parser.setRiskAnalysis(new_risk);
@@ -183,5 +219,32 @@ void changeVariable(Parser& parser)
         parser.setOutputFilename(new_name);
     }
 
-    cout << "Changes were applied." << endl;
+    cout << "\n";
+    cout << "\033[34m" << "  ╔══════════════════════════════════════╗\n" << "\033[0m";
+    cout << "\033[34m" << "  ║  Changes applied successfully!       ║\n" << "\033[0m";
+    cout << "\033[34m" << "  ╚══════════════════════════════════════╝\n" << "\033[0m";
+}
+
+void byebye()
+{
+    cout << R"(
+                /|  /|  ---------------------------
+                ||__||  |                         |
+               /   O O\__        Bye bye!         |
+              /          \                        |
+             /      \     \                       |
+            /   _    \     \ ----------------------
+           /    |\____\     \      ||
+          /     | | | |\____/      ||
+         /       \| | | |/ |     __||
+        /  /  \   -------  |_____| ||
+       /   |   |           |       --|
+       |   |   |           |_____  --|
+       |  |_|_|_|          |     \----
+       /\                  |
+      / /\        |        /
+     / /  |       |       |
+ ___/ /   |       |       |
+|____/    c_c_c_C/ \C_c_c_c
+)";
 }

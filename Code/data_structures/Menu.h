@@ -59,4 +59,9 @@ void handleGenerateAssignments(const Parser& parser, const ReviewAssigner& revie
  */
 void changeVariable(Parser& parser);
 
+/**
+ * @brief Prints Goodbye Message
+ */
+void byebye();
+
 #endif //PROJECT1_MENU_H
